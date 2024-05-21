@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+
+  mysqlDb:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  postgresDb:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  mongoDb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD}
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - "27017:27017"
+
+  cassandraDb:
+    image: cassandra:latest
+    environment:
+      CASSANDRA_CLUSTER_NAME: MainCluster
+      CASSANDRA_DC: DC1-K8S
+      CASSANDRA_RACK: Rack1-K8S
+      CASSANDRA_PASSWORD_SEEDER: yes
+      CASSANDRA_PASSWORD: ${CASSANDRA_PASSWORD}
+    volumes:
+      - cassandra-data:/var/lib/cassandra
+    ports:
+      - "9042:9042"
+
+volumes:
+  mysql-data:
+  postgres-data:
+  mongodb-data:
+  cassandra-data:
+
